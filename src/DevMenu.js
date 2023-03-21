@@ -2,19 +2,9 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import {
-   getAccessConfig,
-   getAnswer,
-   getQuestion,
-   getQuestions,
-   getSimilarQuestions,
-   getUserProfile,
-} from '../../helpers/read';
-import {useGlobalContext} from '../../contexts/GlobalContextProvider';
-import {useParams} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 
 export default function DevMenu() {
-   const {user} = useGlobalContext();
    const [anchorEl, setAnchorEl] = React.useState(null);
    const open = Boolean(anchorEl);
    const handleClick = event => {
@@ -24,7 +14,9 @@ export default function DevMenu() {
       setAnchorEl(null);
    };
 
-   const params = useParams();
+   const globalState = useSelector(state => {
+      return state;
+   });
    const [inpValue, setInpValue] = React.useState('');
 
    return (
@@ -58,56 +50,10 @@ export default function DevMenu() {
          >
             <MenuItem
                onClick={async () => {
-                  console.log('getQuestions result', await getQuestions());
+                  console.log(globalState);
                }}
             >
-               Get all questions
-            </MenuItem>
-            <MenuItem
-               onClick={async () => {
-                  console.log('Get current user', user);
-               }}
-            >
-               Get current user profile
-            </MenuItem>
-            <MenuItem
-               onClick={() => {
-                  console.log('Get access token', getAccessConfig());
-               }}
-            >
-               Get Access Token
-            </MenuItem>
-            <MenuItem
-               onClick={async () => {
-                  console.log(params);
-                  console.log(
-                     'Get question based a slug',
-
-                     await getQuestion(inpValue)
-                  );
-               }}
-            >
-               Get question based on a slug
-            </MenuItem>
-            <MenuItem
-               onClick={async () => {
-                  console.log(
-                     'Get answer based on id',
-                     await getAnswer(inpValue)
-                  );
-               }}
-            >
-               Get answer based on id
-            </MenuItem>
-            <MenuItem
-               onClick={async () => {
-                  console.log(
-                     'Get similar questions',
-                     await getSimilarQuestions(params.id)
-                  );
-               }}
-            >
-               Get Similar Questions
+               Get global state
             </MenuItem>
 
             <MenuItem

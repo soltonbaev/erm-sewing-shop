@@ -1,9 +1,8 @@
-// Import the functions you need from the SDKs you need
-import {initializeApp} from 'firebase/app';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/app';
+import 'firebase/compat/auth';
+import {getFirestore} from 'firebase/firestore';
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
    apiKey: 'AIzaSyAOSG5knW73dt05AvsRjGq_BI3iSuX0c08',
    authDomain: 'erm-sewing-shop.firebaseapp.com',
@@ -13,5 +12,8 @@ const firebaseConfig = {
    appId: '1:642838847032:web:f1bf0d89bd0f429c1dd0cd',
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const fireBase = firebase.initializeApp(firebaseConfig);
+// Initialize Cloud Firestore and get a reference to the service
+export const db = getFirestore(fireBase);
+
+export default fireBase;
