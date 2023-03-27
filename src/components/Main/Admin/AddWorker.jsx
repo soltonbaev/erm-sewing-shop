@@ -11,12 +11,20 @@ import {Box} from '@mui/system';
 import {Formik} from 'formik';
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
 import {addWorker} from '../../../helpers/CRUD/create';
-import {getAllWorkers} from '../../../helpers/CRUD/read';
+import {getAllWorkers, useCurrentUser} from '../../../helpers/CRUD/read';
 import WorkerList from './WorkerList';
 
 const AddWorker = () => {
    const dispatch = useDispatch();
+   const navigate = useNavigate();
+   const currentUser = useCurrentUser();
+   useEffect(() => {
+      if (currentUser.type !== 'admin') {
+         navigate('/');
+      }
+   }, currentUser.type);
 
    return (
       <>
@@ -42,7 +50,7 @@ const AddWorker = () => {
                }
                return errors;
             }}
-            onSubmit={async (values, {setSubmitting}) => {
+            onSubmit={async (values, {setSubmitting, resetForm}) => {
                const workerObj = {
                   email: values.email,
                   password: values.password,
@@ -54,6 +62,7 @@ const AddWorker = () => {
                await dispatch(addWorker(workerObj));
                await dispatch(getAllWorkers());
                setSubmitting(false);
+               resetForm({values: ''});
             }}
          >
             {({

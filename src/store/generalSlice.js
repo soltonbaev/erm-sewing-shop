@@ -13,12 +13,12 @@ export const generalReducer = createSlice({
    reducers: {},
    extraReducers(builder) {
       builder.addCase(login.rejected, (state, action) => {
-         console.log('login rejected', action.payload);
+         // console.log('login rejected', action.payload);
          toast.dismiss(loginToastId);
          toast.error('Не удалось войти в систему', {hideProgressBar: true});
       });
       builder.addCase(login.pending, (state, action) => {
-         console.log('login pending', action.payload);
+         // console.log('login pending', action.payload);
          loginToastId = toast.warn(
             'Попытка авторизации... Пожалуйста подождите.'
          );

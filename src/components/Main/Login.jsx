@@ -40,10 +40,11 @@ const Login = () => {
                }
                return errors;
             }}
-            onSubmit={(values, {setSubmitting}) => {
-               dispatch(
+            onSubmit={async (values, {setSubmitting}) => {
+               await dispatch(
                   login({email: values.email, password: values.password})
                );
+               setSubmitting(false);
             }}
          >
             {({

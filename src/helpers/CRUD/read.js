@@ -18,6 +18,14 @@ export const useWorkerList = () => {
    return useSelector(state => state.admin.workers);
 };
 
+export const useModelList = () => {
+   return useSelector(state => state.admin.models);
+};
+
+export const useOperationList = () => {
+   return useSelector(state => state.admin.operations);
+};
+
 export const login = createAsyncThunk(
    'authorization/login',
    async ({email, password}) => {
@@ -57,15 +65,34 @@ export const getAllWorkers = createAsyncThunk(
    'admin/getAllWorkers',
    async () => {
       let arr = [];
-      // const querySnapshot = await getDocs(collection(db, 'users'));
-      // querySnapshot.forEach(doc => {
-      //    arr.push([doc.id, doc.data()]);
-      // });
       const q = query(collection(db, 'users'), where('type', '!=', 'admin'));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach(doc => {
          arr.push(doc.data());
       });
+      return arr;
+   }
+);
+
+export const getAllModels = createAsyncThunk('admin/getAllModels', async () => {
+   let arr = [];
+   const querySnapshot = await getDocs(collection(db, 'models'));
+   querySnapshot.forEach(doc => {
+      arr.push(doc.data());
+   });
+
+   return arr;
+});
+
+export const getAllOperations = createAsyncThunk(
+   'admin/getAllOperations',
+   async () => {
+      let arr = [];
+      const querySnapshot = await getDocs(collection(db, 'operations'));
+      querySnapshot.forEach(doc => {
+         arr.push(doc.data());
+      });
+
       return arr;
    }
 );

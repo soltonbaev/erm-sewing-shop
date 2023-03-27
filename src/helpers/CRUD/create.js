@@ -1,5 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {doc, setDoc} from 'firebase/firestore';
+import {collection, doc, setDoc} from 'firebase/firestore';
 import fireBase, {db} from '../firebase';
 
 // Admin's actions
@@ -19,12 +19,23 @@ export const addWorker = createAsyncThunk(
          type: type,
       });
 
-      return {authRes, setDocRes};
+      return setDocRes;
    }
 );
 
-export const addModel = createAsyncThunk('admin/addModel', async () => {});
-export const addOperation = createAsyncThunk('admin/addModel', async () => {});
+export const addModel = createAsyncThunk('admin/addModel', async modelObj => {
+   const newModelRef = doc(collection(db, 'models'));
+   console.log('newModelRef', newModelRef.id);
+   await setDoc(newModelRef, modelObj);
+});
+
+export const addOperation = createAsyncThunk(
+   'admin/addOperation',
+   async operationObj => {
+      const newOperationRef = doc(collection(db, 'operations'));
+      await setDoc(newOperationRef, operationObj);
+   }
+);
 
 // Cutter's actions
 export const addCut = createAsyncThunk('admin/addModel', async () => {});
